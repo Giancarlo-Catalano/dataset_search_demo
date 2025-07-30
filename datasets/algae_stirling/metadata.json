@@ -9,5 +9,6 @@
   "author_contacts": ["gian_email@stir.ac.uk", "sophie.mclean@envlab.uk"],
   "identifier": "doi:algae-stirling-ecodata",
   "works_that_used_this_dataset": ["doi:algae-paper-2025"],
-  "usage_rights": "Commons"
+  "usage_rights": "Commons",
+  "files": ["blue_algae.csv", "green_algae.csv", "red_algae.csv"]
 }
