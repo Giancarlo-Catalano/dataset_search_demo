@@ -1,13 +1,7 @@
 async function listDatasets() {
   try {
-    const res = await fetch('datasets/');
-    const text = await res.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    return [...doc.querySelectorAll('a')]
-      .map(a => a.getAttribute('href'))
-      .filter(href => href.endsWith('/') && href !== '../')
-      .map(folder => folder.replace(/\/$/, ''));
+    const res = await fetch('datasets/index.json');
+    return res.json();
   } catch (e) {
     console.error('Failed to list dataset folders:', e);
     return [];
@@ -17,21 +11,18 @@ async function listDatasets() {
 async function loadMetadata(name) {
   const res = await fetch(`datasets/${name}/metadata.json`);
   const metadata = await res.json();
+  metadata.folder = name;
 
   try {
-    const folder = `datasets/${name}/dataset_files/`;
-    const listing = await fetch(folder);
-    const text = await listing.text();
+    const folderUrl = `datasets/${name}/dataset_files/`;
+    const listing = await fetch(folderUrl);
     const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    const links = [...doc.querySelectorAll('a')];
-    metadata.files = links
+    const doc = parser.parseFromString(await listing.text(), 'text/html');
+    metadata.files = [...doc.querySelectorAll('a')]
       .map(a => a.getAttribute('href'))
       .filter(href => href && href !== '../');
-    metadata.folder = name;
   } catch (e) {
     metadata.files = [];
-    metadata.folder = name;
   }
 
   return metadata;
@@ -43,17 +34,34 @@ function renderResults(items, container) {
     const card = document.createElement('div');
     card.className = 'card';
 
-    const fileList = m.files.length
-      ? '<ul>' + m.files.map(f => `<li><a href="datasets/${m.folder}/dataset_files/${f}" target="_blank">${f}</a></li>`).join('') + '</ul>'
-      : '<p>No files listed.</p>';
-
-    card.innerHTML = `
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    header.innerHTML = `
       <h3>${m.dataset_name}</h3>
       <p>${m.description}</p>
-      <p><em>Rights:</em> ${m.usage_rights}</p>
-      <strong>Files:</strong>
-      ${fileList}
+      <small>Last updated: ${m.last_updated}</small>
     `;
+
+    const details = document.createElement('div');
+    details.className = 'card-details';
+    details.innerHTML = `
+      <p><strong>Authors:</strong> ${m.authors.join(', ')}</p>
+      <p><strong>DOI:</strong> ${m.identifier}</p>
+      <p><strong>Used in:</strong> ${m.works_that_used_this_dataset.join(', ')}</p>
+      <p><strong>Usage rights:</strong> ${m.usage_rights}</p>
+      <strong>Files:</strong>
+      ${m.files.length
+        ? '<ul>' + m.files.map(f => `<li><a href="datasets/${m.folder}/dataset_files/${f}" download>${f}</a></li>`).join('') + '</ul>'
+        : '<p>No files available.</p>'}
+    `;
+
+    header.addEventListener('click', () => {
+      const isVisible = details.style.display === 'block';
+      details.style.display = isVisible ? 'none' : 'block';
+    });
+
+    card.appendChild(header);
+    card.appendChild(details);
     container.appendChild(card);
   });
 }
