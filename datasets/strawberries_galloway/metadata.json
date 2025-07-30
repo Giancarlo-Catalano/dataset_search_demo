@@ -1,0 +1,13 @@
+{
+  "dataset_name": "Strawberry growth in Galloway",
+  "tags": ["strawberries", "Galloway"],
+  "last_updated": "July 2024",
+  "first_updated": "June 2024",
+  "update_schedule": "every 2 months",
+  "description": "This dataset tracks strawberry growth metrics in fields around Galloway.",
+  "authors": ["Giancarlo Catalano", "Rachael Norman"],
+  "author_contacts": ["gian_email@stir.ac.uk", "rachael_email@stir.ac.uk"],
+  "identifier": "doi:xyz",
+  "works_that_used_this_dataset": ["doi:aaa", "doi:sdf"],
+  "usage_rights": "Commons"
+}

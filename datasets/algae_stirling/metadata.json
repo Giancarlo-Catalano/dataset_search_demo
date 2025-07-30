@@ -1,0 +1,13 @@
+{
+  "dataset_name": "Freshwater Algae Samples in Stirling",
+  "tags": ["algae", "Stirling", "freshwater", "ecology", "microscopy"],
+  "last_updated": "August 2025",
+  "first_updated": "January 2024",
+  "update_schedule": "monthly",
+  "description": "This dataset includes microscopy images and sample records of freshwater algae collected in the Stirling area. It is part of a long-term ecological monitoring project.",
+  "authors": ["Giancarlo Catalano", "Sophie McLean"],
+  "author_contacts": ["gian_email@stir.ac.uk", "sophie.mclean@envlab.uk"],
+  "identifier": "doi:algae-stirling-ecodata",
+  "works_that_used_this_dataset": ["doi:algae-paper-2025"],
+  "usage_rights": "Commons"
+}
