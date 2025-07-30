@@ -28,8 +28,10 @@ async function loadMetadata(name) {
     metadata.files = links
       .map(a => a.getAttribute('href'))
       .filter(href => href && href !== '../');
+    metadata.folder = name;
   } catch (e) {
-    metadata.files = ['(unable to list files)'];
+    metadata.files = [];
+    metadata.folder = name;
   }
 
   return metadata;
@@ -40,11 +42,17 @@ function renderResults(items, container) {
   items.forEach(m => {
     const card = document.createElement('div');
     card.className = 'card';
+
+    const fileList = m.files.length
+      ? '<ul>' + m.files.map(f => `<li><a href="datasets/${m.folder}/dataset_files/${f}" target="_blank">${f}</a></li>`).join('') + '</ul>'
+      : '<p>No files listed.</p>';
+
     card.innerHTML = `
       <h3>${m.dataset_name}</h3>
-      <p><strong>Files:</strong> ${m.files.join(', ')}</p>
       <p>${m.description}</p>
       <p><em>Rights:</em> ${m.usage_rights}</p>
+      <strong>Files:</strong>
+      ${fileList}
     `;
     container.appendChild(card);
   });
