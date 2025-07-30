@@ -1,12 +1,38 @@
-const datasets = [
-  'strawberries_galloway',
-  'bananas_brazil',
-  'algae_stirling'
-];
+async function listDatasets() {
+  try {
+    const res = await fetch('datasets/');
+    const text = await res.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    return [...doc.querySelectorAll('a')]
+      .map(a => a.getAttribute('href'))
+      .filter(href => href.endsWith('/') && href !== '../')
+      .map(folder => folder.replace(/\/$/, ''));
+  } catch (e) {
+    console.error('Failed to list dataset folders:', e);
+    return [];
+  }
+}
 
 async function loadMetadata(name) {
   const res = await fetch(`datasets/${name}/metadata.json`);
-  return res.json();
+  const metadata = await res.json();
+
+  try {
+    const folder = `datasets/${name}/dataset_files/`;
+    const listing = await fetch(folder);
+    const text = await listing.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    const links = [...doc.querySelectorAll('a')];
+    metadata.files = links
+      .map(a => a.getAttribute('href'))
+      .filter(href => href && href !== '../');
+  } catch (e) {
+    metadata.files = ['(unable to list files)'];
+  }
+
+  return metadata;
 }
 
 function renderResults(items, container) {
@@ -25,17 +51,14 @@ function renderResults(items, container) {
 }
 
 async function doSearch(query) {
-  const all = await Promise.all(datasets.map(loadMetadata));
-  const filtered = all.filter(m =>
+  const folders = await listDatasets();
+  const all = await Promise.all(folders.map(loadMetadata));
+  return all.filter(m =>
     m.dataset_name.toLowerCase().includes(query) ||
     m.tags.join(' ').toLowerCase().includes(query)
   );
-  // attach file names
-  filtered.forEach(m => m.files = ['(list file names manually)']);
-  return filtered;
 }
 
-// Shared handler for both pages
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('search-form');
   const input = document.getElementById('query');
@@ -43,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtn = document.getElementById('filter-btn');
   const filterPanel = document.getElementById('filter-panel');
 
-  // if on results page, pre-fill
   const params = new URLSearchParams(window.location.search);
   if (params.has('q')) {
     input.value = params.get('q');
