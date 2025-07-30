@@ -9,5 +9,6 @@
   "author_contacts": ["gian_email@stir.ac.uk", "rachael_email@stir.ac.uk"],
   "identifier": "doi:xyz",
   "works_that_used_this_dataset": ["doi:aaa", "doi:sdf"],
-  "usage_rights": "Commons"
+  "usage_rights": "Commons",
+  "files": ["growth_rates.csv", "growth_heatmap.png"]
 }
