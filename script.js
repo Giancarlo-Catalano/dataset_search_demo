@@ -1,7 +1,7 @@
 async function listDatasets() {
   try {
     const res = await fetch('datasets/index.json');
-    return res.json();
+    return await res.json();
   } catch (e) {
     console.error('Failed to list dataset folders:', e);
     return [];
@@ -12,19 +12,7 @@ async function loadMetadata(name) {
   const res = await fetch(`datasets/${name}/metadata.json`);
   const metadata = await res.json();
   metadata.folder = name;
-
-  try {
-    const folderUrl = `datasets/${name}/dataset_files/`;
-    const listing = await fetch(folderUrl);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(await listing.text(), 'text/html');
-    metadata.files = [...doc.querySelectorAll('a')]
-      .map(a => a.getAttribute('href'))
-      .filter(href => href && href !== '../');
-  } catch (e) {
-    metadata.files = [];
-  }
-
+  metadata.files = metadata.files || [];
   return metadata;
 }
 
@@ -36,28 +24,26 @@ function renderResults(items, container) {
 
     const header = document.createElement('div');
     header.className = 'card-header';
-    header.innerHTML = `
-      <h3>${m.dataset_name}</h3>
-      <p>${m.description}</p>
-      <small>Last updated: ${m.last_updated}</small>
-    `;
+    header.innerHTML = `<h3>${m.dataset_name}</h3><p>${m.description}</p><p><em>Last updated:</em> ${m.last_updated}</p>`;
 
     const details = document.createElement('div');
-    details.className = 'card-details';
+    details.className = 'card-details hidden';
+    const fileList = m.files.length
+      ? '<ul>' + m.files.map(f => `<li><a href="datasets/${m.folder}/dataset_files/${f}" target="_blank">${f}</a></li>`).join('') + '</ul>'
+      : '<p>No files listed.</p>';
+
     details.innerHTML = `
-      <p><strong>Authors:</strong> ${m.authors.join(', ')}</p>
-      <p><strong>DOI:</strong> ${m.identifier}</p>
-      <p><strong>Used in:</strong> ${m.works_that_used_this_dataset.join(', ')}</p>
-      <p><strong>Usage rights:</strong> ${m.usage_rights}</p>
+      <p><strong>Authors:</strong> ${m.authors?.join(', ') || 'N/A'}</p>
+      <p><strong>Contact:</strong> ${m.author_contacts?.join(', ') || 'N/A'}</p>
+      <p><strong>Identifier:</strong> ${m.identifier || 'N/A'}</p>
+      <p><strong>Used in works:</strong> ${m.works_that_used_this_dataset?.join(', ') || 'N/A'}</p>
+      <p><strong>Rights:</strong> ${m.usage_rights || 'N/A'}</p>
       <strong>Files:</strong>
-      ${m.files.length
-        ? '<ul>' + m.files.map(f => `<li><a href="datasets/${m.folder}/dataset_files/${f}" download>${f}</a></li>`).join('') + '</ul>'
-        : '<p>No files available.</p>'}
+      ${fileList}
     `;
 
     header.addEventListener('click', () => {
-      const isVisible = details.style.display === 'block';
-      details.style.display = isVisible ? 'none' : 'block';
+      details.classList.toggle('hidden');
     });
 
     card.appendChild(header);
@@ -71,7 +57,7 @@ async function doSearch(query) {
   const all = await Promise.all(folders.map(loadMetadata));
   return all.filter(m =>
     m.dataset_name.toLowerCase().includes(query) ||
-    m.tags.join(' ').toLowerCase().includes(query)
+    (m.tags || []).join(' ').toLowerCase().includes(query)
   );
 }
 
