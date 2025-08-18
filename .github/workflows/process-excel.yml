@@ -1,0 +1,32 @@
+name: Process Excel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl requests
+
+      - name: Run Excel processor
+        run: python scripts/process_excel.py "https://stir-my.sharepoint.com/:x:/g/personal/gac8_stir_ac_uk/EQYEDWjiqz1BttORI1k3drsBAhFaw8uP1OZPaGVHoncEJQ?e=5jNawC&download=1"
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add spreadsheetInfo.json
+          git commit -m "Update spreadsheetInfo.json" || echo "No changes to commit"
+          git push
