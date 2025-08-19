@@ -162,7 +162,8 @@ for idx, row in df.iterrows():
     else:
         # very small fallback: escape and turn double newlines into paragraphs
         esc = html.escape(description_md)
-        paragraphs = ''.join(f"<p>{p.replace('\n', '<br/>')}</p>" for p in esc.split('\n\n') if p.strip())
+        newline = "\n"
+        paragraphs = ''.join(f"<p>{p.replace(newline, '<br/>')}</p>" for p in esc.split('\n\n') if p.strip())
         description_html = paragraphs or '<p></p>'
 
     # create a simple HTML page
