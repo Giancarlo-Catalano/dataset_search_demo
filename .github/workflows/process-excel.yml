@@ -6,6 +6,9 @@ on:
     paths:
       - database_information.csv   # only run if this file changes
 
+permissions:
+  contents: write   # 👈 allow pushing commits
+
 jobs:
   build:
     runs-on: ubuntu-latest
