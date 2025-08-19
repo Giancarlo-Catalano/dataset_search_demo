@@ -1,0 +1,17 @@
+[
+  {
+    "id": "0001",
+    "name": "3",
+    "keywords": [
+      "Breastfeeding",
+      "babies",
+      "feeding status",
+      "first visit"
+    ],
+    "abstract": "The number and percentage of babies who received a health visitor first visit and whose feeding status is known. These statistics are derived from data collected at the health visitor First Visit review (at around 10 days old) and the 6-8 week review, and recorded on the child health pre-school system (CHSP Pre-School). At these reviews, the health professional (normally a health visitor) records whether a mother is exclusively breastfeeding (baby is fed breast milk only), mixed feeding (baby is fed both breast and formula milk), or if the baby is being fed formula milk only.\n\nThe overall breastfeeding rate includes babies who are exclusively breastfed and babies who are mixed breast and formula fed. Some information may have been suppressed or adjusted to preserve patient confidentiality.\n\nMore details, including a statistical commentary, are available on the infant feeding pages of the NHS ISD website.\n\nFurther details on the methodology used to create this dataset are available in the accompanying technical report.",
+    "location": "Scotland",
+    "accessibility": "Accessible",
+    "index": 0,
+    "link": "database_webpages/0001.html"
+  }
+]
