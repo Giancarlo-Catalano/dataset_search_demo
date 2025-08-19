@@ -3,6 +3,8 @@ name: Process CSV
 on:
   push:
     branches: [ main ]
+    paths:
+      - database_information.csv   # only run if this file changes
 
 jobs:
   build:
