@@ -107,7 +107,7 @@ if not CSV_PATH.exists():
 
 # Read CSV. The sample header used semicolons, so try sep=';'. If that fails, fall back to auto-detect.
 try:
-    df = pd.read_csv(CSV_PATH, sep=';', encoding='utf-8', dtype=str)
+    df = pd.read_csv(CSV_PATH, sep=',', encoding='utf-8', dtype=str)
 except Exception:
     df = pd.read_csv(CSV_PATH, encoding='utf-8', dtype=str)
 
