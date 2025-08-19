@@ -174,7 +174,7 @@ for idx, row in df.iterrows():
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{html.escape(name) or 'Dataset ' + code}</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
   <main class="container">
