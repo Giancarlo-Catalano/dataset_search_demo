@@ -1,0 +1,16 @@
+{
+  "rows": 3,
+  "columns": 10,
+  "column_names": [
+    "Id",
+    "Start time",
+    "Completion time",
+    "Email",
+    "Name",
+    "Single option",
+    "Multiple Choices",
+    "Short text",
+    "Longer text",
+    "A date"
+  ]
+}
