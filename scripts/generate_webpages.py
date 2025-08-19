@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+
 if keywords_raw:
-keywords = [k.strip() for k in re.split(r'[;,|\n]+', keywords_raw) if k.strip()]
+	keywords = [k.strip() for k in re.split(r'[;,|\n]+', keywords_raw) if k.strip()]
 else:
-keywords = []
+	keywords = []
 
 
 abstract = str(row.get('abstract', '') or row.get('short_summary', '') or '')
@@ -16,16 +17,17 @@ organisation = str(row.get('organisation', '') or '')
 
 # Convert description markdown to HTML if possible; otherwise minimal escaping with paragraphs
 if MD_AVAILABLE and description_md.strip():
-description_html = markdown.markdown(description_md, extensions=['fenced_code', 'tables'])
+	description_html = markdown.markdown(description_md, extensions=['fenced_code', 'tables'])
 else:
-# very small fallback: escape and turn double newlines into paragraphs
-esc = html.escape(description_md)
-paragraphs = ''.join(f"<p>{p.replace('\n', '<br/>')}</p>" for p in esc.split('\n\n') if p.strip())
-description_html = paragraphs or '<p></p>'
+	# very small fallback: escape and turn double newlines into paragraphs
+	esc = html.escape(description_md)
+	paragraphs = ''.join(f"<p>{p.replace('\n', '<br/>')}</p>" for p in esc.split('\n\n') if p.strip())
+	description_html = paragraphs or '<p></p>'
 
 
 # create a simple HTML page
 html_content = f"""
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -67,15 +69,15 @@ page_path.write_text(html_content, encoding='utf-8')
 
 # Build entry for JSON index
 index_entry = {
-'id': code,
-'name': name,
-'keywords': keywords,
-'abstract': abstract,
-'location': location,
-'accessibility': accessibility,
-'index': idx,
-'link': f"{OUT_DIR.name}/{page_filename}",
-}
+		'id': code,
+		'name': name,
+		'keywords': keywords,
+		'abstract': abstract,
+		'location': location,
+		'accessibility': accessibility,
+		'index': idx,
+		'link': f"{OUT_DIR.name}/{page_filename}",
+	}
 index_list.append(index_entry)
 
 
