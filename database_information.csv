@@ -1,7 +1,32 @@
-﻿Id,Start time,Completion time,Email,Name,Single option,Multiple Choices,Short text,Longer text,A date
-1,18/08/2025 16:05,18/08/2025 16:06,anonymous,,A,Banana;,some text,Long LONG text,27/08/2025
-2,19/08/2025 10:54,19/08/2025 10:55,anonymous,,something,Apricot;Cucumber,maybe shrort,"What if I had a BIG text
-and
-and
-And I went on a new line",09/08/2025
-3,19/08/2025 11:08,19/08/2025 11:08,anonymous,,B,Banana,sdf,sdfsdfsdfsdfssfd,21/08/2025
+﻿Id,Start time,Completion time,Email,Name,Name of dataset,Keywords,What is the main topic?,Short summary (one line),Abstract,"Long form description, the datacard",Download links,Version,Word Count:,"Is this dataset part of a bigger collection? If yes, write it here",ISSN,"Was this work used elsewhere (conference, paper etc..)",Intended audience:,Author,Organisation that generated this data,Text describing credit information,Citation(s) to the original publications and webpages,Contributor,Editor:,Source of funding,Language,Maintainer,Publication,Publisher,Sponsor:,Does this work go by an alternate name?,Disambiguating description,What is measured in the dataset? And how?,Where was the data recorded?,When was the data recorded?,Was the data shown at a particular event? Eg the conference,"Lifecycle Status (eg draft, incomplete, published)","What was the original format of the data? Microfiche, paper etc..",What is the file format?,accountablePerson:,acquireLicencePage:,conditionsOfAccess:,copyrightHolder:,copyrightNotice:,copyrightYear,isAccessibleForFree,isBasedOn:,isFamilyFriendly:,licence:,producer:,provider:,usageInfo:,Genre:,Accessibility:,expires:
+1,19/08/2025 12:30,19/08/2025 12:39,anonymous,,Breastfeeding in Scotland,"Breastfeeding, babies, feeding status, first visit",Breastfeeding status,The number and percentage of babies who received a health visitor first visit and whose feeding status is known,"The number and percentage of babies who received a health visitor first visit and whose feeding status is known. These statistics are derived from data collected at the health visitor First Visit review (at around 10 days old) and the 6-8 week review, and recorded on the child health pre-school system (CHSP Pre-School). At these reviews, the health professional (normally a health visitor) records whether a mother is exclusively breastfeeding (baby is fed breast milk only), mixed feeding (baby is fed both breast and formula milk), or if the baby is being fed formula milk only.
+
+The overall breastfeeding rate includes babies who are exclusively breastfed and babies who are mixed breast and formula fed. Some information may have been suppressed or adjusted to preserve patient confidentiality.
+
+More details, including a statistical commentary, are available on the infant feeding pages of the NHS ISD website.
+
+Further details on the methodology used to create this dataset are available in the accompanying technical report.","Note: This dataset will not be receiving updates through this portal. Please refer to the [Public Health Scotland Open Data](https://www.opendata.nhs.scot/dataset/infant-feeding) platform for the relevant data.
+
+The number and percentage of babies who received a health visitor first visit and whose feeding status is known. These statistics are derived from data collected at the health visitor First Visit review (at around 10 days old) and the **6-8 week review,** and recorded on the child health pre-school system (CHSP Pre-School). At these reviews, the health professional (normally a health visitor) records whether a mother is **exclusively breastfeeding** (baby is fed breast milk only), **mixed feeding** (baby is fed both breast and formula milk), or if the baby is being fed **formula milk only.**
+
+**Potentially relevant items:**
+
+*   **Breastfeeding Data Collection Time**
+    
+*   **Population Group**
+    
+*   **Reference Area**
+    
+*   **Reference Period**
+    
+*   **Measure Type**
+    
+
+The overall breastfeeding rate includes babies who are exclusively breastfed and babies who are mixed breast and formula fed. Some information may have been suppressed or adjusted to preserve patient confidentiality.
+
+More details, including a statistical commentary, are available on the [infant feeding pages of the NHS ISD website](https://www.isdscotland.org/Health-Topics/Child-Health/Infant-Feeding/).
+
+Further details on the methodology used to create this dataset are available in the accompanying [technical report](https://www.isdscotland.org/Health-Topics/Child-Health/Publications/2018-10-30/2018-10-30-Infant-Feeding-Technical-Report.pdf).","http://statistics.gov.scot/graph/breastfeeding
+https://statistics.gov.scot/resource?uri=http%3A%2F%2Fstatistics.gov.scot%2Fdata%2Fbreastfeeding",1,200,Statistics Gov Scot,,,Researchers,Public Health Scotland,Public Health Scotland,Found on the Scottish government website,phs.childhealthstats@phs.scot,,,Government,English,Government,,,,,,"Percent Of Babies: count
+Babies: count
+",Scotland,2010/2011,,complete,spreadsheet,csv,,,,,,,Yes,,Yes,public,,,,Health,Accessible,
