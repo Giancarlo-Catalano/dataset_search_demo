@@ -72,7 +72,7 @@ function renderResults(items, container) {
     card.className = 'search-card';
 
     const title = document.createElement('h2');
-    const a = document.createElement('a');
+    const a = document.createElement('a')
     a.href = item.link || (`database_webpages/${item.id}.html`);
     a.textContent = item.name || `Dataset ${item.id}`;
     title.appendChild(a);

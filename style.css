@@ -12,9 +12,8 @@ body {
   padding: 1em;
 }
 
-a {
-  color: #90ee90; /* light green */
-  text-decoration: none;
+article.search-card h2 a {
+  color: #006600
 }
 
 a:hover {
