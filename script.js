@@ -33,6 +33,7 @@ async function doSearch(q) {
     return hits;
   }
 
+  //if not using flex search
   const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
   const scored = data.map(item => {
     let score = 0;
