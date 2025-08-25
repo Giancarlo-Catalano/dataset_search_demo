@@ -88,6 +88,15 @@ button:hover {
   color: #b2d8b2;
 }
 
+article.search-card {
+    box-shadow: 5px 5px 10px 2px rgb(0 0 0 / 0.8);
+    background-color: #f0fff0;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    color: black;
+}
+
 .hidden {
   display: none;
 }
