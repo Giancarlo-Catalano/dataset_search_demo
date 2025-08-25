@@ -41,8 +41,8 @@ HEADER_MAP = {
     'Start time': 'start_time',
     'Completion time': 'completion_time',
     'Email': 'email',
+    'Allow?': "allow?",
     'Name': 'name',
-    'Name of dataset': 'dataset_name',
     'Keywords': 'keywords',
     'What is the main topic?': 'main_topic',
     'Short summary (one line)': 'short_summary',
@@ -105,11 +105,16 @@ NORMALISED_LOOKUP = {normalise(k): v for k, v in HEADER_MAP.items()}
 if not CSV_PATH.exists():
     raise SystemExit(f"CSV not found at {CSV_PATH.resolve()} — place database_information.csv in the script directory")
 
-# Read CSV. The sample header used semicolons, so try sep=';'. If that fails, fall back to auto-detect.
+# Read CSV. try sep=','. If that fails, fall back to auto-detect.
 try:
     df = pd.read_csv(CSV_PATH, sep=',', encoding='utf-8', dtype=str)
 except Exception:
     df = pd.read_csv(CSV_PATH, encoding='utf-8', dtype=str)
+
+
+# The dataframe is likely to contain many empty rows. Remove those where the id is not a number
+# note that we use capitalised Id becase we've not converted the column names yet
+df = df[~df["Id"].isna()]
 
 # Ensure string values and fill NaN with empty strings
 df = df.astype(object).where(pd.notnull(df), '')
@@ -134,8 +139,8 @@ index_list = []
 # safe HTML escape
 import html
 
-for idx, row in df.iterrows():
-    code = f"{idx+1:04d}"  # 1-based, zero padded
+for index, row in df.iterrows():
+    code = f"{index + 1:04d}"  # 1-based, zero padded
     page_filename = f"{code}.html"
     page_path = OUT_DIR / page_filename
 
@@ -151,6 +156,7 @@ for idx, row in df.iterrows():
     abstract = str(row.get('abstract', '') or row.get('short_summary', '') or '')
     location = str(row.get('location', '') or '')
     accessibility = str(row.get('accessibility', '') or row.get('isAccessibleForFree', '') or '')
+    allowed_in_database = str(row.get('allow?', '')) == "Allow"
     description_md = str(row.get('description_md', '') or '')
     download_links = str(row.get('download_links', '') or '')
     author = str(row.get('author', '') or '')
@@ -180,7 +186,7 @@ for idx, row in df.iterrows():
   <main class="container">
     <h1>{html.escape(name) or 'Dataset ' + code}</h1>
     <p><strong>Dataset code:</strong> {code}</p>
-    <p><strong>Author / Organisation:</strong> {html.escape(author)} {(' — ' + html.escape(organisation)) if organisation else ''}</p>
+    <p><strong>Author / Organisation:</strong> {html.escape(author)} {(' - ' + html.escape(organisation)) if organisation else ''}</p>
     <p><strong>Keywords:</strong> {', '.join(html.escape(k) for k in keywords)}</p>
     <p><strong>Location:</strong> {html.escape(location)}</p>
     <p><strong>Accessibility:</strong> {html.escape(accessibility)}</p>
@@ -205,12 +211,13 @@ for idx, row in df.iterrows():
     # Build entry for JSON index
     index_entry = {
         'id': code,
+        'allowed_in_database': allowed_in_database,
         'name': name,
         'keywords': keywords,
         'abstract': abstract,
         'location': location,
         'accessibility': accessibility,
-        'index': idx,
+        'index': index,
         'link': f"{OUT_DIR.name}/{page_filename}",
     }
     index_list.append(index_entry)
